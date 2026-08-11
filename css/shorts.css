@@ -1,0 +1,309 @@
+html, body{
+    margin: 0;
+    height: 100%;
+    background-color: #000;
+    font-family: inter;
+    overflow: hidden;
+}
+
+/* ============================================================
+   SHORTS APP - full-screen, nutup seluruh browser (bukan kotak
+   kecil di tengah halaman), mirip lightbox foto tapi jadi
+   halaman utuh dengan feed video/foto yang bisa di-scroll.
+   ============================================================ */
+
+.shorts-app{
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #000;
+    z-index: 100;
+}
+
+.shorts-topbar{
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 18px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0));
+    position: relative;
+    z-index: 20;
+}
+
+.shorts-home-link{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.shorts-logo{
+    height: 24px;
+    width: auto;
+    display: block;
+}
+
+.shorts-nav-links{
+    display: flex;
+    gap: 18px;
+}
+
+.shorts-nav-links a{
+    color: #dcdcdc;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.shorts-nav-links a:hover{
+    color: #ff8f8c;
+}
+
+.shorts-topbar-right{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+}
+
+.shorts_counter{
+    color: #cfcfcf;
+    font-size: 12px;
+}
+
+.shorts-close-btn{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, #4e4e4e, #494949);
+    color: #fdfdfd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.shorts-close-btn:hover{
+    background: linear-gradient(to bottom, #5a5a5a, #545454);
+}
+
+.shorts-feed{
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    background-color: #000;
+    position: relative;
+    scrollbar-width: none;
+    cursor: grab;
+    touch-action: pan-y;
+}
+
+/* Dipasang lewat JS selama mouse di-drag: snap dimatikan sementara
+   biar tarikannya halus, lalu balik nge-snap begitu dilepas */
+.shorts-feed.dragging{
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+    cursor: grabbing;
+    user-select: none;
+}
+
+.shorts-feed::-webkit-scrollbar{
+    display: none;
+}
+
+.shorts-loading{
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.short-slide{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    overflow: hidden;
+}
+
+.short-media{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background-color: #000;
+    -webkit-user-drag: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.short-controls{
+    position: absolute;
+    right: 18px;
+    bottom: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 5;
+}
+
+.short-progress{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 22px;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 0;
+    cursor: pointer;
+    z-index: 8;
+    touch-action: none;
+}
+
+.short-progress-track{
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.short-progress-fill{
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #da514d, #ff8f8c);
+}
+
+.short-mute-btn{
+    outline: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: linear-gradient(to bottom, #4e4e4e, #494949);
+    border: none;
+    color: #fdfdfd;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.short-mute-btn:hover{
+    background: linear-gradient(to bottom, #5a5a5a, #545454);
+}
+
+.short-overlay{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 22px 90px 30px 22px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.4) 60%, rgba(0,0,0,0));
+    color: #fff;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+.short-title{
+    margin: 0 0 6px;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 1.3;
+}
+
+.short-channel{
+    margin: 0 0 5px;
+    font-size: 14px;
+    color: #ff8f8c;
+    font-weight: bold;
+}
+
+.short-category{
+    margin: 0 0 5px;
+    font-size: 13px;
+    color: #d8d8d8;
+}
+
+.short-desc{
+    margin: 0;
+    font-size: 13px;
+    color: #e6e6e6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.shorts-nav{
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 30;
+}
+
+.shorts-nav-btn{
+    outline: none;
+    width: 46px;
+    height: 46px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: linear-gradient(to bottom, #da514d, #cb3732);
+    border: none;
+    color: #fff;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.shorts-nav-btn:hover{
+    filter: brightness(1.08);
+}
+
+.shorts-nav-btn:disabled{
+    opacity: 0.4;
+    cursor: default;
+}
+
+@media (max-width: 680px){
+    .shorts-nav-links{
+        display: none;
+    }
+}
+
+@media (max-width: 480px){
+    .shorts-nav{
+        display: none;
+    }
+    .shorts-close-btn{
+        width: 30px;
+        height: 30px;
+    }
+    .short-overlay{
+        padding: 18px 60px 26px 16px;
+    }
+}

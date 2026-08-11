@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuthfieBudie_Gallery</title>
+    <link rel="stylesheet" href="/css/uiux.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=DM+Sans:wght@400;500;600&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+
+
+    <div class="body_page">
+        <header class="main_header">
+            <div class="header">
+
+                <div class="logo">
+                    <img class="logoimeg" src="/assets/logo/logo.png" alt="">
+                    <img class="gallery" src="/assets/logo/gallery.png" alt="">
+                </div>
+
+                <div class="search_area">
+                    <div class="link_container">
+                        <div class="link">
+                            <a href="#">|   Dark mode   |</a>
+                            <a href="help.html">Help    |</a>
+                        </div>
+                    </div>
+
+                    <div class="search">
+                        <input type="text">
+                        <div class="dropdown-filter-container">
+                            <button class="filter" type="submit" onclick="toggleFilterDropdown()"><i id="filterIcon" class="fa-solid fa-magnifying-glass"></i></button>
+                            <div id="filterDropDownMenu" class="dropdown-filter-content">
+                                <a href="#" onclick="selectFilter(this, event)"><i class="fa-solid fa-magnifying-glass"></i></a>
+                                <a href="#" onclick="selectFilter(this, event)"><i class="fa-solid fa-at"></i></a>
+                                <a href="#" onclick="selectFilter(this, event)"><i class="fa-solid fa-list"></i></a>
+                                <a href="#" onclick="selectFilter(this, event)"><i class="fa-solid fa-tag"></i></a>
+                                <a href="#" onclick="selectFilter(this, event)"><i class="fa-brands fa-figma"></i></a>
+                            </div> 
+                        </div>
+                        
+                        <button class="submit" type="submit">Search</button>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+ 
+
+
+        <div class="second_header">
+            <div class="second_head">
+                <a href="index.html">Home</a>
+                <a href="videos.html">Videos</a>
+                <a href="shorts.html">Shorts</a>
+                <a href="photo.html">Photos</a>
+                <a href="channels.html">Channels</a>
+                <a href="uiux.html">UI/UX</a>
+            </div>
+        </div>
+
+        <div class="main_body">
+            <div class="main_body_video">
+                <div class="left_body">                    
+
+                    <div class="trending">
+                        <p class="trending_title">Featured Projects</p>
+
+                        <div id="uiuxContainer">
+                            <!-- Kartu project UI/UX (gambar, judul, deskripsi, added, from)
+                                 dirender otomatis di sini oleh gdrive.js -->
+                            <p style="padding:10px;">Loading...</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="right_body"> 
+                    <div class="browse">
+                        <p class="browse_title">Browse Category</p>
+                        <a href="videos.html?category=Advertisement">Advertisement</a>
+                        <a href="videos.html?category=Brand%20Advertisement">Brand Advertisement</a>
+                        <a href="videos.html?category=Application%20Trailer">Application Trailer</a>
+                        <a href="videos.html?category=Game%20Trailer">Game Trailer</a>
+                        <a href="videos.html?category=Web%20Trailer">Web Trailer</a>
+                        <a href="videos.html?category=Music">Music</a>
+                        <a href="videos.html?category=Edit">Edit</a>
+                        <a href="videos.html?category=Memes">Memes</a>
+                        <a href="videos.html?category=Tutorial">Tutorial</a>
+                        
+                    </div>
+                
+
+
+
+
+                    <div class="news">
+                        <p class="news_title">What's New</p>
+                        <div class="news_description">
+                            <a href="game_trailer.html" class="news_small_description">Game Trailer</a>
+                            <p>Are you a musician? signup for our new musician account or login to convert your existing account.</p>
+                            <div class="news_link_wrapper">
+                                <a class="news_link" href="videos.html?category=Game%20Trailer">Explore </a>
+                                <a class="news_link" href="blog.html">Read Our Blog </a>
+                            </div> 
+                        </div>
+                    </div>
+
+
+
+                    <div class="active">
+                        <p class="active_title">Active Channels</p>
+                        
+                        
+                        <div class="active_description">
+                            <div id="activeChannelContainer">
+                                <!-- Diisi otomatis oleh gdrive.js (renderActiveChannels), pakai data channel asli -->
+                                <p style="padding:10px;">Loading...</p>
+                            </div>
+
+
+
+
+
+
+
+                            <a class="active_link" href="channels.html">See More Channels</a>
+
+
+                            
+                            </div> 
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+            <div class="update-wrapper">
+            <p class="update">Updated: <span id="last-update"></span></p>
+        </div>
+        </div>
+
+        
+    </div>
+    
+    
+
+
+    
+
+
+
+
+
+    
+    <script src="/js/script.js"></script>
+    <script src="/js/gdrive.js"></script>
+</body>
+</html>
