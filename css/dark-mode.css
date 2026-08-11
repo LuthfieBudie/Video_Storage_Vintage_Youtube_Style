@@ -1,0 +1,215 @@
+/* ============================================================
+   DARK MODE OVERRIDES
+   Toggled via body.dark-mode class (see darkmode.js)
+   ============================================================ */
+
+body.dark-mode {
+    background-color: #121212;
+}
+
+body.dark-mode .body_page {
+    background-color: #1e1e1e;
+    color: #d8d8d8;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .search input {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #444444;
+}
+
+body.dark-mode .search-suggestions li i {
+    color: #999999;
+}
+
+body.dark-mode .search-suggestions {
+    background: #1e1e1e;
+    border: 1px solid #444444;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .search-suggestions li {
+    color: #cccccc;
+}
+
+body.dark-mode .search-suggestions li:hover {
+    background-color: #2a2a2a;
+    color: #8fb8ff;
+}
+
+body.dark-mode .search input {
+    border: 1px solid #444444;
+}
+
+body.dark-mode .dropdown-filter-content {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .link a {
+    color: #8ca4ff;
+}
+
+body.dark-mode .link a:hover {
+    color: #b3c4ff;
+}
+
+body.dark-mode .second_header {
+    border-top: 2px solid #3a3f4a;
+    border-bottom: 2px solid #3a3f4a;
+    background: linear-gradient(to bottom, #232830, #1a1e24);
+}
+
+body.dark-mode .second_header a {
+    border-top: 2px solid #3a3f4a;
+    border-right: 2px solid #3a3f4a;
+    border-left: 2px solid #3a3f4a;
+    color: #8fb8ff;
+    background-color: #2a2a2a;
+}
+
+body.dark-mode .trending {
+    border: 1px solid #333333;
+}
+
+body.dark-mode .trending_title {
+    color: #dddddd;
+    background: linear-gradient(to bottom, #2a2a2a, #232323);
+}
+
+body.dark-mode .browse a {
+    color: #8ca4ff;
+    border: 1px solid #333333;
+}
+
+body.dark-mode .news_title {
+    color: #dddddd;
+    background: linear-gradient(to bottom, #262626, #202020);
+    border: 1px solid #333333;
+}
+
+body.dark-mode .news_description {
+    border-right: 1px solid #333333;
+    border-left: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+}
+
+body.dark-mode .news_small_description {
+    color: #8fb8ff;
+}
+
+body.dark-mode .news_link_wrapper {
+    color: #8fb8ff;
+}
+
+body.dark-mode .active_title {
+    color: #dddddd;
+    background: linear-gradient(to bottom, #262626, #202020);
+    border: 1px solid #333333;
+}
+
+body.dark-mode .active_description {
+    border-right: 1px solid #333333;
+    border-left: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+}
+
+body.dark-mode .channel_title {
+    color: #8fb8ff;
+}
+
+body.dark-mode .channel_count {
+    color: #999999;
+}
+
+body.dark-mode .update {
+    color: #999999;
+}
+
+body.dark-mode .zoom-close:hover {
+    color: #444444;
+}
+
+body.dark-mode .feature_video {
+    border-bottom: 1px solid #333333;
+}
+
+body.dark-mode .feature_video_title {
+    color: #8fb8ff;
+}
+
+body.dark-mode .feature_added_category p {
+    color: #aaaaaa;
+}
+
+body.dark-mode .control_btn {
+    border: 1px solid #444444;
+    background: linear-gradient(to bottom, #2a2a2a, #232323);
+    color: #cccccc;
+}
+
+body.dark-mode .control_btn:hover {
+    background: linear-gradient(to bottom, #232323, #1a1a1a);
+}
+
+body.dark-mode .control_btn.active {
+    color: #fff;
+}
+
+body.dark-mode .feature_title {
+    color: #dddddd;
+    background: linear-gradient(to bottom, #2a2a2a, #232323);
+}
+
+body.dark-mode .feature_title_bottom {
+    border-top: 1px solid #333333;
+    background: linear-gradient(to bottom, #2a2a2a, #232323);
+}
+
+body.dark-mode .feature {
+    border: 1px solid #333333;
+}
+
+body.dark-mode .Tren_video_description p {
+    color: #8fb8ff;
+}
+
+body.dark-mode .uiux-card-info {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .uiux-card-title {
+    color: #8fb8ff;
+}
+
+body.dark-mode .uiux-card-desc {
+    color: #cccccc;
+}
+
+body.dark-mode .uiux-card-meta {
+    color: #aaaaaa;
+}
+
+body.dark-mode .uiux-detail-title {
+    color: #eeeeee;
+}
+
+body.dark-mode .uiux-detail-desc {
+    color: #cccccc;
+}
+
+body.dark-mode .uiux-detail-meta {
+    color: #aaaaaa;
+}
+
+body.dark-mode .channel-card-info {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .channel-card-name {
+    color: #8fb8ff;
+}
+
+body.dark-mode .channel-card-count {
+    color: #999999;
+}

@@ -1,6 +1,3 @@
-
-
-
 const GDRIVE_API_KEY = "AIzaSyA5HcMQPSCTGkGPWiig8Nx1V77p0X8mFQ4";
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzTZJ7fgf6w_OkVa3Yv2zFGmKmZP3TZ_MPci_q9Kd-6l41Nr-rBOKMz7lzIyAZTJp9dfg/exec";
 
@@ -439,11 +436,14 @@ async function renderVideoList() {
         const semuaFile = await fetchFileListFromFolder(DRIVE_FOLDER_ID);
         let files = semuaFile.filter(isVideoFile); // <- foto/file lain dibuang di sini
 
-        // Kalau ada filter kategori di URL, saring lagi berdasarkan (...) di nama file
+        // Kalau ada filter kategori di URL, saring lagi berdasarkan (...) di nama file.
+        // Video tanpa kategori di nama filenya dianggap "Uncategorized" (sama seperti
+        // teks yang ditampilkan di kartu), supaya klik link "Uncategorized" ikut kena.
         if (categoryFilter) {
             files = files.filter((file) => {
                 const parsed = parseVideoFileName(file.name);
-                return parsed.category.toLowerCase() === categoryFilter.toLowerCase();
+                const efektifKategori = parsed.category || "Uncategorized";
+                return efektifKategori.toLowerCase() === categoryFilter.toLowerCase();
             });
         }
 
@@ -524,11 +524,14 @@ async function renderPhotoList() {
         const semuaFile = await fetchFileListFromFolder(DRIVE_PHOTO_FOLDER_ID);
         let files = semuaFile.filter(isImageFile); // <- video/file lain dibuang di sini
 
-        // Kalau ada filter kategori di URL, saring lagi berdasarkan (...) di nama file
+        // Kalau ada filter kategori di URL, saring lagi berdasarkan (...) di nama file.
+        // Foto tanpa kategori di nama filenya dianggap "Uncategorized" (sama seperti
+        // teks yang ditampilkan di kartu), supaya klik link "Uncategorized" ikut kena.
         if (categoryFilter) {
             files = files.filter((file) => {
                 const parsed = parseVideoFileName(file.name);
-                return parsed.category.toLowerCase() === categoryFilter.toLowerCase();
+                const efektifKategori = parsed.category || "Uncategorized";
+                return efektifKategori.toLowerCase() === categoryFilter.toLowerCase();
             });
         }
 
