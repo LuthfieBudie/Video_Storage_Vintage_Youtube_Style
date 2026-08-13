@@ -68,11 +68,11 @@ body.dark-mode .second_header a {
     background-color: #2a2a2a;
 }
 
-body.dark-mode .trending {
+body.dark-mode .trending , body.dark-mode .recent_tab , body.dark-mode .concepts_tab{
     border: 1px solid #333333;
 }
 
-body.dark-mode .trending_title {
+body.dark-mode .trending_title , body.dark-mode .recent , body.dark-mode .concepts{
     color: #dddddd;
     background: linear-gradient(to bottom, #2a2a2a, #232323);
 }
@@ -156,15 +156,29 @@ body.dark-mode .control_btn.active {
     color: #fff;
 }
 
-body.dark-mode .feature_title {
+body.dark-mode .feature_title ,body.dark-mode .feature_title_bottom{
     color: #dddddd;
     background: linear-gradient(to bottom, #2a2a2a, #232323);
 }
 
-body.dark-mode .feature_title_bottom {
+body.dark-mode .feature_title_bottom{
     border-top: 1px solid #333333;
+}
+
+body.dark-mode .example, body.dark-mode .legends{
+    border: 1px solid #333333;
+}
+
+body.dark-mode .example_desc, body.dark-mode .legend_desc{
+    border-bottom: 1px solid #333333;
+}
+
+body.dark-mode .legend_title, body.dark-mode .example_title{
+    color: #dddddd;
     background: linear-gradient(to bottom, #2a2a2a, #232323);
 }
+
+
 
 body.dark-mode .feature {
     border: 1px solid #333333;

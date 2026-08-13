@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LuthfieBudie_Gallery</title>
     <link rel="icon" type="image/x-icon" href="../assets/logo/logo.ico">
-    <link rel="stylesheet" href="../css/game_trailer.css">
+    <link rel="stylesheet" href="../css/instruction.css">
      <link rel="stylesheet" href="../css/dark-mode.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=DM+Sans:wght@400;500;600&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
                 <div class="search_area">
                     <div class="link_container">
                         <div class="link">
-                            <a href="#" id="darkModeToggle">|   Dark mode   |</a>
+                            <a href="#"id="darkModeToggle">|   Dark mode   |</a>
                             <a href="instruction.html">Instruction    |</a>
                             <a href="help.html">About    |</a>
                         </div>
@@ -69,36 +69,42 @@
 
         <div class="main_body">
             <div class="main_body_video">
-                <div class="left_body">     
-                    <div class="card">
-                        <div id="cardShowcaseContainer">
-                            <img src="../assets/image/no_content.gif" alt="" class="card-showcase-media">
+                <div class="left_body">
+
+                    <div class="trending">
+                        <div class="aboutme"> 
+                            <p class="title_aboutme">Instruction</p>
+                            <p class="desc_aboutme">YM Gallery is a retro-inspired portfolio project modeled after the 2006 YouTube interface. This section outlines the metadata tagging conventions used to structure and display media content across the platform.</p>
+                            
+                            <div class="legends">
+                                <p class="legend_title">Legends</p>
+                                <p class="legend_desc">Title = Name or title for videos and photos, for example "YMGallery Showcase".</p>
+                                <p class="legend_desc">/from/ = Media publisher channel name, for example "/admin/".</p>
+                                <p class="legend_desc">(Category) = Category for each media item, for example "(Showcase)".</p>
+                                <p class="legend_desc">[Tags] = Key tags for the media, for example "[gaming, photoshop, html]".</p>
+                                <p class="legend_desc">{Description} = Description for the media, for example "{Lorem ipsum dolor sit amet..}".</p>
+                                <p class="legend_desc">("whats new category") + ;1; = Channel profile picture identifier.</p>
+                                <p class="legend_desc">$filter$ = Filter identifier for each projects (Projects page only), for example "$YMGallery projects$".</p>
+                                <p class="legend_desc">&lt;link&gt; = Link to Figma project (Projects page only), for example "&lt;https://www.figma.com/...&gt;".</p>
+                                <p class="legend_desc">$filter$ + ;1; = Project thumbnail (Projects page only), for example "$YMGallery projects$;1;".</p>
+                                <p class="legend_desc">;2; ... = Additional projects image assets (Projects page only).</p>
+                            </div>
+
+                            <p class="desc_aboutme_1">The following code snippets demonstrate how these metadata tags are combined in practice to format different media types.</p>
+
+                            <div class="example">
+                                <p class="example_title">Example</p>
+                                <p class="example_desc">Photo = YMGallery Photo /Luthfie Budie/ (Showcase)</p>
+                                <p class="example_desc">Video = YMGallery Showcase /luthfie Budie/ (Showcase) [Web, Gdrive] {Lorem ipsum dolor sit..}</p>
+                                <p class="example_desc">Projects = YMGallery Image 2 /luthfie Budie/ $YMGallery$ ;2; </p>
+                                <p class="example_desc">Projects (Thumbnail) = YMGallery Project /luthfie Budie/ $YMGallery$ ;1; {Lorem ipsum dolor sit..} &lt;https://www.figma.com/...&gt;</p>
+                                <p class="example_desc">P.S. for Project do not put another description and link after putting them in the same $filter$.</p>
+                            </div>
                         </div>
+                        
 
-                    </div>               
-
-
-                    <div class="left_bottom_body">
-
-                    <div class="recent_tab">
-                        <p class="recent">Recent Videos</p>
-                        <div id="recentGameTrailerContainer">
-                            <!-- Video kategori "Game Trailer" digenerate otomatis oleh gdrive.js -->
-                            <p style="padding:10px;">Loading...</p>
-                        </div>
+                        
                     </div>
-
-                    <div class="concepts_tab">
-                        <p class="concepts">Concepts</p>
-                        <div id="conceptGameTrailerContainer">
-                            <!-- Foto kategori "Game Trailer" digenerate otomatis oleh gdrive.js -->
-                            <p style="padding:10px;">Loading...</p>
-                        </div>
-                    </div>
-
-                    </div>
-
-                    
 
                 </div>
 
@@ -129,7 +135,7 @@
                             <a href="game_trailer.html" class="news_small_description">Game Trailer</a>
                             <p>Discover the latest content featuring custom edited trailers, updated gameplay, and a look into upcoming game concepts.</p>
                             <div class="news_link_wrapper">
-                                <a class="news_link" href="videos.html?category=Game%20Trailer">Explore </a>
+                                <a class="news_link" href="game_trailer.html">Explore </a>
                             </div> 
                         </div>
                     </div>
@@ -162,10 +168,6 @@
 
 
 
-                </div>
-
-
-
             </div>
             <div class="update-wrapper">
             <p class="update">Updated: <span id="last-update"></span></p>
@@ -186,7 +188,6 @@
 
     
     <script src="../js/script.js"></script>
-    <script src="../js/zoom.js"></script>
     <script src="../js/gdrive.js"></script>
     <script src="../js/darkmode.js"></script>
 </body>

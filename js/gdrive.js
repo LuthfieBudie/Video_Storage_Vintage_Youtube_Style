@@ -106,6 +106,9 @@ function parseVideoFileName(rawFileName) {
     const figma = figmaMatch ? figmaMatch[1].trim() : "";
     if (figmaMatch) sisa = sisa.replace(figmaMatch[0], " ");
 
+    const indexMatch = sisa.match(/;(\d+);/);
+    if (indexMatch) sisa = sisa.replace(indexMatch[0], " ");
+
     // 7. Sisa teks (setelah semua bagian di atas dibuang) = judul asli.
     //    Rapikan spasi ganda/berlebih jadi satu spasi saja.
     const title = sisa.replace(/\s+/g, " ").trim();
@@ -557,6 +560,216 @@ async function renderPhotoList() {
 }
 
 document.addEventListener("DOMContentLoaded", renderPhotoList);
+
+
+// ============================================================
+// RECENT VIDEOS (game_trailer.html) -> video dengan category "Game Trailer"
+// Kartu mirip videos.html, tapi cuma title, duration, & from (tanpa
+// description, tags, category, added)
+// ============================================================
+const RECENT_GAME_TRAILER_CATEGORY = "Game Trailer";
+
+function buatKartuRecentVideo(file, index) {
+    const nomor = index + 1;
+    const thumbSrc = `https://drive.google.com/thumbnail?id=${file.id}&sz=w400`;
+    const parsed = parseVideoFileName(file.name);
+
+    return `
+        <div class="feature_video">
+            <div class="video-card" data-file-id="${file.id}">
+                <div class="thumbnail-container" id="recentThumb${nomor}">
+                    <img src="${thumbSrc}" alt="" class="thumbnail-img" loading="lazy">
+                    <div class="play_icon">▶</div>
+                </div>
+            </div>
+            <div class="video_feature_description">
+                <a class="feature_video_title" href="#">${parsed.title}</a>
+                <p class="feature_video_duration">--:--</p>
+                <p class="feature_video_channel">From: ${parsed.channel || "Unknown"}</p>
+            </div>
+        </div>
+    `;
+}
+
+async function renderRecentGameTrailerVideos() {
+    const container = document.getElementById("recentGameTrailerContainer");
+    if (!container) return; // bukan game_trailer.html, skip
+
+    try {
+        const semuaFile = await fetchFileListFromFolder(DRIVE_FOLDER_ID);
+        const files = semuaFile.filter(isVideoFile).filter((file) => {
+            const parsed = parseVideoFileName(file.name);
+            return (parsed.category || "").toLowerCase() === RECENT_GAME_TRAILER_CATEGORY.toLowerCase();
+        });
+
+        if (!files.length) {
+            container.innerHTML = "<p style='padding:10px;'>Belum ada video dengan kategori Game Trailer.</p>";
+            return;
+        }
+
+        container.innerHTML = files.map(buatKartuRecentVideo).join("");
+        pasangKlikPindahKePlay(container);
+        syncAllVideoCards(container); // durasi & title diisi otomatis, elemen lain (category/tags/added) diabaikan karena tidak ada di kartu ini
+    } catch (err) {
+        console.error("Gagal render recent videos (Game Trailer):", err);
+        container.innerHTML = "<p style='padding:10px;'>Gagal memuat video. Cek console (F12).</p>";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", renderRecentGameTrailerVideos);
+
+
+// ============================================================
+// CONCEPTS (game_trailer.html) -> foto dengan category "Game Trailer"
+// Kartu memakai layout sama seperti Active Channel (channel_item /
+// channel_thumbnail / channel_info)
+// ============================================================
+function buatKartuConceptPhoto(file) {
+    const thumbSrc = `https://drive.google.com/thumbnail?id=${file.id}&sz=w150`;
+    const fullSrc = `https://drive.google.com/thumbnail?id=${file.id}&sz=w1600`;
+    const parsed = parseVideoFileName(file.name);
+
+    return `
+        <a class="channel_item photo-item" href="${fullSrc}" data-file-id="${file.id}" data-full-src="${fullSrc}" onclick="event.preventDefault();">
+            <div class="channel_thumbnail">
+                <img src="${thumbSrc}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">
+            </div>
+            <div class="channel_info">
+                <p class="channel_title">${parsed.title || "Untitled"}</p>
+                <p class="channel_count">From: ${parsed.channel || "Unknown"}</p>
+            </div>
+        </a>
+    `;
+}
+
+async function renderConceptGameTrailerPhotos() {
+    const container = document.getElementById("conceptGameTrailerContainer");
+    if (!container) return; // bukan game_trailer.html, skip
+
+    try {
+        const semuaFile = await fetchFileListFromFolder(DRIVE_PHOTO_FOLDER_ID);
+        const files = semuaFile.filter(isImageFile).filter((file) => {
+            const parsed = parseVideoFileName(file.name);
+            return (parsed.category || "").toLowerCase() === RECENT_GAME_TRAILER_CATEGORY.toLowerCase();
+        });
+
+        if (!files.length) {
+            container.innerHTML = "<p style='padding:10px;'>Belum ada foto dengan kategori Game Trailer.</p>";
+            return;
+        }
+
+        container.innerHTML = files.map(buatKartuConceptPhoto).join("");
+
+        if (window.initZoom) {
+            window.initZoom(container);
+        }
+    } catch (err) {
+        console.error("Gagal render concept photos (Game Trailer):", err);
+        container.innerHTML = "<p style='padding:10px;'>Gagal memuat foto. Cek console (F12).</p>";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", renderConceptGameTrailerPhotos);
+
+
+// ============================================================
+// CARD SHOWCASE (game_trailer.html) -> video/foto kategori "Game
+// Trailer" yang namanya ditandai ";1;" (BEDA dari uiux: di sini
+// TIDAK perlu tanda $...$, cukup ";1;" saja).
+// - Tidak ada file ";1;" sama sekali -> GIF default di HTML tetap tampil.
+// - Ada 1 file ";1;" -> tampilkan gambar/video itu, size sama seperti card.
+// - Ada 2+ file ";1;" -> tampil sebagai slider dengan tombol < >.
+// ============================================================
+const CARD_SHOWCASE_CATEGORY = "Game Trailer";
+const CARD_SHOWCASE_INDEX = 1;
+
+function extractSemicolonIndex(rawFileName) {
+    const match = rawFileName.match(/;(\d+);/);
+    return match ? parseInt(match[1], 10) : null;
+}
+
+let cardShowcaseItems = [];
+let cardShowcaseIndex = 0;
+
+function buatMediaCardShowcase(file) {
+    if (isVideoFile(file)) {
+        const streamSrc = `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media&key=${GDRIVE_API_KEY}`;
+        const posterSrc = `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`;
+        return `<video src="${streamSrc}" poster="${posterSrc}" controls playsinline class="card-showcase-media"></video>`;
+    }
+    const imgSrc = `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`;
+    return `<img src="${imgSrc}" alt="" class="card-showcase-media">`;
+}
+
+function renderCardShowcaseSlide() {
+    const container = document.getElementById("cardShowcaseContainer");
+    if (!container || !cardShowcaseItems.length) return;
+
+    const file = cardShowcaseItems[cardShowcaseIndex];
+    const mediaHtml = buatMediaCardShowcase(file);
+
+    const navHtml = cardShowcaseItems.length > 1
+        ? `
+            <button type="button" class="card-showcase-nav card-showcase-prev" aria-label="Sebelumnya">&lt;</button>
+            <button type="button" class="card-showcase-nav card-showcase-next" aria-label="Berikutnya">&gt;</button>
+        `
+        : "";
+
+    container.innerHTML = `${mediaHtml}${navHtml}`;
+
+    // Fallback: sebagian browser tidak langsung autoplay video yang disisipkan
+    // lewat innerHTML meskipun ada atribut autoplay, jadi panggil play() manual
+    const videoEl = container.querySelector("video.card-showcase-media");
+    if (videoEl) {
+        videoEl.muted = true; // pastikan muted, browser hanya izinkan autoplay kalau muted
+        videoEl.play().catch((err) => console.warn("Autoplay video showcase diblokir browser:", err));
+    }
+
+    if (cardShowcaseItems.length > 1) {
+        container.querySelector(".card-showcase-prev").addEventListener("click", () => {
+            cardShowcaseIndex = (cardShowcaseIndex - 1 + cardShowcaseItems.length) % cardShowcaseItems.length;
+            renderCardShowcaseSlide();
+        });
+        container.querySelector(".card-showcase-next").addEventListener("click", () => {
+            cardShowcaseIndex = (cardShowcaseIndex + 1) % cardShowcaseItems.length;
+            renderCardShowcaseSlide();
+        });
+    }
+}
+
+async function renderCardShowcase() {
+    const container = document.getElementById("cardShowcaseContainer");
+    if (!container) return; // bukan game_trailer.html, skip
+
+    try {
+        const [semuaVideo, semuaFoto] = await Promise.all([
+            fetchFileListFromFolder(DRIVE_FOLDER_ID),
+            fetchFileListFromFolder(DRIVE_PHOTO_FOLDER_ID)
+        ]);
+
+        const kandidat = [...semuaVideo.filter(isVideoFile), ...semuaFoto.filter(isImageFile)];
+
+        cardShowcaseItems = kandidat.filter((file) => {
+            const parsed = parseVideoFileName(file.name);
+            const kategoriCocok = (parsed.category || "").toLowerCase() === CARD_SHOWCASE_CATEGORY.toLowerCase();
+            const indexCocok = extractSemicolonIndex(file.name) === CARD_SHOWCASE_INDEX;
+            return kategoriCocok && indexCocok;
+        });
+
+        if (!cardShowcaseItems.length) {
+            // Tidak ada file ";1;" -> biarkan GIF default (sudah ada di HTML) tetap tampil
+            return;
+        }
+
+        cardShowcaseIndex = 0;
+        renderCardShowcaseSlide();
+    } catch (err) {
+        console.error("Gagal render card showcase:", err);
+        // Gagal fetch -> jangan ganggu tampilan, biarkan GIF default tetap ada
+    }
+}
+
+document.addEventListener("DOMContentLoaded", renderCardShowcase);
 
 
 // ============================================================
@@ -1275,7 +1488,7 @@ async function buildUiuxProjects() {
 function getUiuxProjects() {
     if (!uiuxProjectsPromise) {
         uiuxProjectsPromise = buildUiuxProjects().catch((err) => {
-            console.error("Gagal membangun daftar project UI/UX:", err);
+            console.error("Gagal membangun daftar project:", err);
             uiuxProjectsPromise = null;
             return [];
         });
@@ -1316,7 +1529,7 @@ async function renderUiuxList() {
         const projects = await getUiuxProjects();
 
         if (!projects.length) {
-            container.innerHTML = "<p style='padding:10px;'>Belum ada project UI/UX.</p>";
+            container.innerHTML = "<p style='padding:10px;'>Belum ada project.</p>";
             return;
         }
 
@@ -1333,7 +1546,7 @@ async function renderUiuxList() {
             }
         });
     } catch (err) {
-        console.error("Gagal render daftar UI/UX:", err);
+        console.error("Gagal render daftar project:", err);
         container.innerHTML = "<p style='padding:10px;'>Gagal memuat data. Cek console (F12).</p>";
     }
 }
@@ -1389,7 +1602,7 @@ async function renderUiuxDetail() {
         // Gambar galeri (;2; ;3; dst) bisa di-zoom, sama seperti foto di halaman lain
         if (window.initZoom) window.initZoom(container);
     } catch (err) {
-        console.error("Gagal render detail UI/UX:", err);
+        console.error("Gagal render detail project:", err);
         container.innerHTML = "<p style='padding:10px;'>Gagal memuat data. Cek console (F12).</p>";
     }
 }
